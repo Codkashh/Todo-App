@@ -1,0 +1,149 @@
+<body>
+  <head>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        flex-direction: column;
+      }
+
+      input[type="text"] {
+        padding: 10px;
+        width: 300px;
+        border: 2px solid #ddd;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        font-size: 16px;
+      }
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        background-color: #4CAF50;
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+        margin: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      #todos {
+        width: 320px;
+        margin-top: 20px;
+      }
+
+      #todos div {
+        background-color: white;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      #todos h1 {
+        font-size: 18px;
+        margin: 0;
+      }
+
+      #todos button {
+        background-color: #ff4d4d;
+        font-size: 14px;
+      }
+
+      #todos button:hover {
+        background-color: #e60000;
+      }
+    </style>
+  </head>
+  <h1>Todo App</h1>
+  <input type="text"></input>
+  <button onclick="addTodo()">Add todo!</button>
+
+  <button onclick="deleteLastTodo()">Delete last todo</button>
+  <button onclick="deleteFirstTodo()">Delete first todo</button>
+
+  <div id="todos"></div>
+
+  <script>
+    let todos = [];
+
+    function addTodo() {
+      const inputValue = document.querySelector("input").value;
+      if (inputValue) {
+        todos.push({ title: inputValue });
+        document.querySelector("input").value = ""; // Clear the input after adding
+        render();
+      } else {
+        console.log("Input is empty, not adding a todo.");
+      }
+    }
+
+    function deleteLastTodo() {
+      if (todos.length > 0) {
+        todos.pop(); // remove the last element from the array
+        render();
+      } else {
+        console.log("No todos to delete.");
+      }
+    }
+
+    function deleteFirstTodo() {
+      if (todos.length > 0) {
+        todos.shift(); // remove the first element from the array
+        render();
+      } else {
+        console.log("No todos to delete.");
+      }
+    }
+
+    function deleteTodo(index) {
+      if (index >= 0 && index < todos.length) {
+        todos.splice(index, 1); // remove the element at the given index
+        render();
+      } else {
+        console.log("Invalid index:", index);
+      }
+    }
+
+    function createTodoComponent(todo, index) {
+      const div = document.createElement("div");
+      const h1 = document.createElement("h1");
+      const button = document.createElement("button");
+
+      h1.innerHTML = todo.title;
+      button.innerHTML = "Delete";
+      button.onclick = () => deleteTodo(index); // Attach the deleteTodo function to the button
+
+      div.append(h1);
+      div.append(button);
+
+      return div;
+    }
+
+    function render() {
+      if (todos && todos.length >= 0) {
+        document.querySelector("#todos").innerHTML = "";
+        todos.forEach((todo, index) => {
+          const element = createTodoComponent(todo, index);
+          document.querySelector("#todos").appendChild(element);
+        });
+      } else {
+        console.log("Todos array is undefined or not an array.");
+      }
+    }
+  </script>
+</body>

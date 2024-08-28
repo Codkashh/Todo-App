@@ -1,16 +1,16 @@
-let ctr = 1; 
-function deleteTodo(index){
-  const element = document.getElementById(index);
-  element.parentNode.removeChild(element);
-}
-function AddTodo(){
-  const inputEle = document.querySelector("input");
-  const val = inputEle.value;
+
+function AddTodo() {
+  const val = document.querySelector("input").value;
 
   const newDivEl = document.createElement("div");
-  newDivEl.setAttribute("id", ctr);
-  newDivEl.innerHTML = "<div>" + val + "</div> <button onclick='deleteTodo(" + ctr + ")'> delete </button>";
+  const spanEl = document.createElement("span");
+  const buttonEl = document.createElement("button");
+
+  spanEl.innerHTML = val;
+  buttonEl.innerHTML = "delete";
+
+  newDivEl.appendChild(spanEl);
+  newDivEl.appendChild(buttonEl);
 
   document.querySelector("body").appendChild(newDivEl)
-  ctr++;
 }
